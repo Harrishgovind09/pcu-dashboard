@@ -6,7 +6,7 @@ data-entry forms, Excel/CSV import with undo, CSV export, admin page.
 
 ## Run locally
 1. `npm install`
-2. Copy `.env.example` to `.env.local`, fill `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`
+2. Copy `.env.example` to `.env.local`, fill `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
 3. Run `supabase/schema.sql` once in the Supabase SQL editor (already applied to the project created for you)
 4. `npm run dev`
 
