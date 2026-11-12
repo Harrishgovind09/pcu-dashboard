@@ -215,3 +215,24 @@ end $$;
 -- nothing is readable without logging in
 revoke all on all tables in schema public from anon;
 revoke all on all functions in schema public from anon;
+
+
+-- ===== v2: personal details + letter date (run after the block above) =====
+alter table public.dass_results
+  add column person_name text check (char_length(person_name) <= 200),
+  add column person_id text check (char_length(person_id) <= 40),
+  add column officer text check (char_length(officer) <= 200);
+
+alter table public.discipline_sessions
+  add column person_name text check (char_length(person_name) <= 200),
+  add column person_id text check (char_length(person_id) <= 40),
+  add column officer text check (char_length(officer) <= 200),
+  add column letter_received_date date;
+
+alter table public.interventions
+  add column person_name text check (char_length(person_name) <= 200),
+  add column person_id text check (char_length(person_id) <= 40),
+  add column officer text check (char_length(officer) <= 200),
+  add column letter_received_date date;
+
+alter table public.interventions alter column stress_status drop not null;

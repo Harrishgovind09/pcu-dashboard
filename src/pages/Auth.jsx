@@ -40,7 +40,6 @@ export function AuthScreen({ langToggle }) {
           <div className="brand-mark" aria-hidden="true">PCU</div>
           <div>
             <div className="hd brand-name dark">{t('appName')}</div>
-            <div className="muted small">{t('appSub')}</div>
           </div>
         </div>
         <h1 className="hd auth-title">{mode === 'in' ? t('signIn') : t('signUp')}</h1>

@@ -22,12 +22,15 @@ export const SPEC = {
     table: 'discipline_sessions',
     cols: [
       C('session_date', 'tarikh', ['date', 'tarikh sesi', 'session date'], 'date'),
+      C('letter_received_date', 'tarikh_surat_diterima', ['tarikh surat', 'letter received date', 'letter date'], 'date', { optional: true }),
+      C('person_name', 'nama', ['name', 'nama pelajar', 'nama staf', 'nama pelajar/staf'], 'name'),
+      C('person_id', 'no_matrik_staf', ['no matrik', 'no. matrik', 'no matrik/staf', 'matric no', 'matric number', 'staff no', 'no staf', 'id'], 'text40'),
       C('ptj', 'ptj', [], 'lookup', { kind: 'ptj' }),
       C('gender', 'jantina', ['gender'], 'gender'),
       C('case_type', 'kes', ['case', 'case type', 'jenis kes'], 'lookup', { kind: 'kes_tatatertib' }),
-      C('attended', 'hadir', ['attended', 'kehadiran'], 'bool', { optional: true, def: true })
+      C('officer', 'pegawai_bertanggungjawab', ['pegawai', 'pegawai yang bertanggungjawab', 'officer', 'officer in charge'], 'name'),
     ],
-    example: ['2026-03-15', 'FKEE', 'Lelaki', 'Ponteng kelas', 'ya']
+    example: ['2026-03-15', '2026-03-10', 'Nama Contoh', 'AI230001', 'FKEE', 'Lelaki', 'Ponteng kelas', 'Pegawai A']
   },
   ujian: {
     table: 'psych_tests',
@@ -45,28 +48,34 @@ export const SPEC = {
     table: 'dass_results',
     cols: [
       C('test_date', 'tarikh', ['date', 'tarikh ujian', 'test date'], 'date'),
-      C('respondent', 'responden', ['respondent'], 'respondent'),
+      C('respondent', 'kategori', ['respondent', 'responden'], 'respondent'),
+      C('person_name', 'nama', ['name', 'nama pelajar', 'nama staf', 'nama pelajar/staf'], 'name'),
+      C('person_id', 'no_matrik_staf', ['no matrik', 'no. matrik', 'no matrik/staf', 'matric no', 'matric number', 'staff no', 'no staf', 'id'], 'text40'),
       C('ptj', 'ptj', [], 'lookup', { kind: 'ptj' }),
       C('gender', 'jantina', ['gender'], 'gender'),
       C('campus', 'kampus', ['campus'], 'lookup', { kind: 'kampus' }),
+      C('officer', 'pegawai_bertanggungjawab', ['pegawai', 'pegawai yang bertanggungjawab', 'officer', 'officer in charge'], 'name'),
       C('depression', 'skor_kemurungan', ['depression', 'depression score', 'kemurungan'], 'score'),
       C('anxiety', 'skor_kebimbangan', ['anxiety', 'anxiety score', 'kebimbangan'], 'score'),
       C('stress', 'skor_tekanan', ['stress', 'stress score', 'tekanan'], 'score')
     ],
-    example: ['2026-03-15', 'pelajar', 'FSKTM', 'Perempuan', 'Parit Raja', 10, 12, 18]
+    example: ['2026-03-15', 'pelajar', 'Nama Contoh', 'AI230001', 'FSKTM', 'Perempuan', 'Parit Raja', 'Pegawai A', 10, 12, 18]
   },
   intervensi: {
     table: 'interventions',
     cols: [
       C('intervention_date', 'tarikh', ['date', 'tarikh intervensi'], 'date'),
-      C('respondent', 'responden', ['respondent'], 'respondent'),
+      C('letter_received_date', 'tarikh_surat_diterima', ['tarikh surat', 'letter received date', 'letter date'], 'date', { optional: true }),
+      C('respondent', 'kategori', ['respondent', 'responden'], 'respondent'),
+      C('person_name', 'nama', ['name', 'nama pelajar', 'nama staf', 'nama pelajar/staf'], 'name'),
+      C('person_id', 'no_matrik_staf', ['no matrik', 'no. matrik', 'no matrik/staf', 'matric no', 'matric number', 'staff no', 'no staf', 'id'], 'text40'),
       C('ptj', 'ptj', [], 'lookup', { kind: 'ptj' }),
       C('gender', 'jantina', ['gender'], 'gender'),
       C('campus', 'kampus', ['campus'], 'lookup', { kind: 'kampus' }),
       C('intervention_type', 'jenis_intervensi', ['intervention type', 'type', 'jenis'], 'lookup', { kind: 'intervensi' }),
-      C('stress_status', 'status_stres', ['stress status', 'status'], 'status')
+      C('officer', 'pegawai_bertanggungjawab', ['pegawai', 'pegawai yang bertanggungjawab', 'officer', 'officer in charge'], 'name'),
     ],
-    example: ['2026-03-15', 'pelajar', 'FKMP', 'Lelaki', 'Pagoh', 'Kaunseling individu', 'sederhana']
+    example: ['2026-03-15', '2026-03-10', 'pelajar', 'Nama Contoh', 'AI230001', 'FKMP', 'Lelaki', 'Pagoh', 'Kaunseling individu', 'Pegawai A']
   },
   program: {
     table: 'programs',
@@ -159,6 +168,7 @@ function convert(col, raw, lookups) {
     case 'money': { const n = Number(String(raw).replace(/,/g, '')); return Number.isFinite(n) && n >= 0 ? { v: n } : { e: 'err_number' }; }
     case 'posint': { const n = Number(s); return Number.isInteger(n) && n > 0 ? { v: n } : { e: 'err_int' }; }
     case 'name': return s.length <= 200 ? { v: s } : { e: 'err_required' };
+    case 'text40': return { v: s.slice(0, 40) };
     default: return { v: s.slice(0, 80) };
   }
 }

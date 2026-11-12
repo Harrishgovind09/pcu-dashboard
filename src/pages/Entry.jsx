@@ -2,20 +2,23 @@ import { useEffect, useState, useCallback } from 'react';
 import { useApp } from '../context.jsx';
 import { supabase } from '../lib/supabase.js';
 import { loadRecent, deleteRecord } from '../lib/data.js';
-import { ORDER, GENDERS, SOURCES, RESPONDENTS, STRESS_STATUS, dassLevel, SEV_COLORS } from '../lib/constants.js';
+import { ORDER, GENDERS, SOURCES, RESPONDENTS, dassLevel, SEV_COLORS } from '../lib/constants.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
 
 const F = (name, labelKey, type, extra = {}) => ({ name, labelKey, type, ...extra });
+const who = [F('person_name', 'personName', 'text', { max: 200 }), F('person_id', 'personId', 'text', { max: 40 })];
+const officer = F('officer', 'officer', 'text', { max: 200 });
+const letter = F('letter_received_date', 'letterDate', 'date', { optional: true });
 const common = [F('ptj', 'ptj', 'lookup', { kind: 'ptj' }), F('gender', 'gender', 'list', { values: GENDERS })];
 
 const FORMS = {
   kaunseling: { table: 'counselling_sessions', init: { attended: true }, fields: [F('session_date', 'date', 'date'), ...common, F('source', 'source', 'list', { values: SOURCES }), F('case_type', 'caseType', 'lookup', { kind: 'kes_kaunseling' }), F('attended', 'attendedQ', 'bool')] },
-  tatatertib: { table: 'discipline_sessions', init: { attended: true }, fields: [F('session_date', 'date', 'date'), ...common, F('case_type', 'caseType', 'lookup', { kind: 'kes_tatatertib' }), F('attended', 'attendedQ', 'bool')] },
+  tatatertib: { table: 'discipline_sessions', init: {}, fields: [F('session_date', 'date', 'date'), letter, ...who, ...common, F('case_type', 'caseType', 'lookup', { kind: 'kes_tatatertib' }), officer] },
   ujian: { table: 'psych_tests', init: {}, fields: [F('test_date', 'date', 'date'), ...common, F('source', 'source', 'list', { values: SOURCES }), F('test_name', 'testName', 'lookup', { kind: 'ujian' }), F('person_code', 'personCode', 'text', { optional: true, hint: 'personCodeHint' })] },
-  dass: { table: 'dass_results', init: {}, fields: [F('test_date', 'date', 'date'), F('respondent', 'respondent', 'list', { values: RESPONDENTS }), ...common, F('campus', 'campus', 'lookup', { kind: 'kampus' }), F('depression', 'score_depression', 'score', { scale: 'depression' }), F('anxiety', 'score_anxiety', 'score', { scale: 'anxiety' }), F('stress', 'score_stress', 'score', { scale: 'stress' })] },
-  intervensi: { table: 'interventions', init: {}, fields: [F('intervention_date', 'date', 'date'), F('respondent', 'respondent', 'list', { values: RESPONDENTS }), ...common, F('campus', 'campus', 'lookup', { kind: 'kampus' }), F('intervention_type', 'intervType', 'lookup', { kind: 'intervensi' }), F('stress_status', 'stressStatus', 'list', { values: STRESS_STATUS })] },
+  dass: { table: 'dass_results', init: {}, fields: [F('test_date', 'date', 'date'), F('respondent', 'respondent', 'list', { values: RESPONDENTS }), ...who, ...common, F('campus', 'campus', 'lookup', { kind: 'kampus' }), officer, F('depression', 'score_depression', 'score', { scale: 'depression' }), F('anxiety', 'score_anxiety', 'score', { scale: 'anxiety' }), F('stress', 'score_stress', 'score', { scale: 'stress' })] },
+  intervensi: { table: 'interventions', init: {}, fields: [F('intervention_date', 'date', 'date'), letter, F('respondent', 'respondent', 'list', { values: RESPONDENTS }), ...who, ...common, F('campus', 'campus', 'lookup', { kind: 'kampus' }), F('intervention_type', 'intervType', 'lookup', { kind: 'intervensi' }), officer] },
   program: { table: 'programs', init: {}, fields: [F('name', 'programName', 'text'), F('jabatan', 'department', 'lookup', { kind: 'jabatan' }), F('held_on', 'heldOn', 'date'), F('budget', 'budget', 'money', { optional: true })] }
 };
 
@@ -45,7 +48,7 @@ function FieldInput({ f, value, error, onChange, lookups }) {
   } else if (f.type === 'score' || f.type === 'money') {
     control = <input id={id} type="number" inputMode="numeric" min="0" max={f.type === 'score' ? 42 : undefined} step={f.type === 'score' ? 1 : '0.01'} value={value ?? ''} onChange={(e) => onChange(e.target.value)} aria-invalid={!!error} />;
   } else {
-    control = <input id={id} type="text" maxLength={f.name === 'name' ? 200 : 80} value={value ?? ''} onChange={(e) => onChange(e.target.value)} aria-invalid={!!error} />;
+    control = <input id={id} type="text" maxLength={f.max || 80} value={value ?? ''} onChange={(e) => onChange(e.target.value)} aria-invalid={!!error} />;
   }
   const lvl = f.type === 'score' && value !== '' && value != null && Number(value) >= 0 && Number(value) <= 42 ? dassLevel(f.scale, Number(value)) : null;
   return (

@@ -105,7 +105,7 @@ export default function App() {
     const desc = route === 'overview' ? t('overallDesc') : isModule ? t('desc_' + route) : t(route === 'entry' ? 'entryDesc' : route === 'import' ? 'importDesc' : 'adminDesc');
     const go = (r) => { window.location.hash = '#/' + r; };
     const navItem = (id, label, icon) => (
-      <a key={id} href={'#/' + id} className={'nav' + (route === id ? ' on' : '')} aria-current={route === id ? 'page' : undefined}>
+      <a key={id} href={'#/' + id} data-mod={ORDER.includes(id) ? id : undefined} className={'nav' + (route === id ? ' on' : '')} aria-current={route === id ? 'page' : undefined}>
         <Icon d={ICONS[icon]} /><span>{label}</span>
       </a>
     );
@@ -117,7 +117,6 @@ export default function App() {
             <div className="brand-mark" aria-hidden="true">PCU</div>
             <div>
               <div className="hd brand-name">{t('appName')}</div>
-              <div className="brand-sub">{t('appSub')}</div>
             </div>
           </div>
           <div className="nav-group">
@@ -137,7 +136,7 @@ export default function App() {
           </div>
           <div className="side-note">{t('footer')}</div>
         </aside>
-        <main className="main">
+        <main className="main" data-mod={isModule ? route : undefined}>
           {IS_MOCK ? <div className="notice demo" role="note">{t('demoBanner')}</div> : null}
           <div className="topbar">
             <div className="crumbs"><span>{t('dashboard')}</span><span aria-hidden="true">/</span><b>{title}</b></div>

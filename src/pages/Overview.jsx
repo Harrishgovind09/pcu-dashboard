@@ -59,7 +59,7 @@ export default function Overview({ year, go }) {
     <div className="stack">
       <div className="flex-wrap">
         {ORDER.map((id) => (
-          <button key={id} type="button" className="card tile" onClick={() => go(id)}>
+          <button key={id} type="button" className="card tile" data-mod={id} onClick={() => go(id)}>
             <span className="tile-top">
               <span className="tile-icon" aria-hidden="true"><Icon d={ICONS[id]} /></span>
               <span className="tile-name">{t(id)}</span>

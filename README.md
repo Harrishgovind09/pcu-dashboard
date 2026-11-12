@@ -1,13 +1,13 @@
 # PCU One Stop Centre – Dashboard (BM / EN)
 
 Working system: React + Vite frontend, Supabase (Postgres + Auth + RLS) backend.
-Staff login, anonymised records (no student names or IDs), live dashboard with filters,
+Staff login, live dashboard with filters (totals only; DASS, Tatatertib and Intervensi records also keep name, matric/staff no. and officer, visible to approved staff only),
 data-entry forms, Excel/CSV import with undo, CSV export, admin page.
 
 ## Run locally
 1. `npm install`
 2. Copy `.env.example` to `.env.local`, fill `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
-3. Run `supabase/schema.sql` once in the Supabase SQL editor (already applied to the project created for you)
+3. Run `supabase/schema.sql` once in the Supabase SQL editor (both the main block and the v2 block; already applied to the project created for you)
 4. `npm run dev`
 
 Try without a backend: `npm run build:demo` (or `VITE_MOCK=1 npm run dev`). Login `demo@pcu.test` / `demo1234`. Data stays in the browser only.

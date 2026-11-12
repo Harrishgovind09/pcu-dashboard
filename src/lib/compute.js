@@ -57,34 +57,36 @@ export function computeModule(id, data, sel, year) {
   const curNoMonth = rowsOf(year, 'month');
   const base = { id, empty: cur.length === 0 };
 
-  if (id === 'kaunseling' || id === 'tatatertib') {
-    const isK = id === 'kaunseling';
+  if (id === 'tatatertib') {
+    const n = cur.length, nP = prev.length;
+    return {
+      ...base,
+      groups: [{ cards: [{ label: 'k_sessions', value: fmt(n), sub: { key: 's_sessionsHeld' }, delta: pctD(n, nP), good: 'flat' }] }],
+      monthly: { titleKey: 'c_sessionsMonth', unitKey: 'sessions', values: monthly(curNoMonth) },
+      gender: genderPair(cur),
+      panels: [bars('c_byCase', tally(cur, (r) => r.caseType)), bars('c_byPtj', tally(cur, (r) => r.ptj))]
+    };
+  }
+
+  if (id === 'kaunseling') {
     const att = cur.filter((r) => r.attended);
     const attP = prev.filter((r) => r.attended);
     const rate = cur.length ? (att.length / cur.length) * 100 : 0;
     const rateP = prev.length ? (attP.length / prev.length) * 100 : 0;
+    const ref = att.filter((r) => r.source === 'rujukan');
+    const refP = attP.filter((r) => r.source === 'rujukan');
     const cards = [
       { label: 'k_attended', value: fmt(att.length), sub: { key: 's_ofAppointments', vars: { n: fmt(cur.length) } }, delta: pctD(att.length, attP.length), good: 'flat' },
-      { label: 'k_rate', value: rate.toFixed(1), unit: '%', bar: rate, sub: { key: 's_sessionRate' }, delta: ptsD(rate, rateP, prev.length > 0), good: 'up' }
+      { label: 'k_rate', value: rate.toFixed(1), unit: '%', bar: rate, sub: { key: 's_sessionRate' }, delta: ptsD(rate, rateP, prev.length > 0), good: 'up' },
+      { label: 'k_referral', value: fmt(ref.length), sub: { key: 's_ofAttendance', vars: { p: pct(ref.length, att.length) } }, delta: pctD(ref.length, refP.length), good: 'flat' }
     ];
-    if (isK) {
-      const ref = att.filter((r) => r.source === 'rujukan');
-      const refP = attP.filter((r) => r.source === 'rujukan');
-      cards.push({ label: 'k_referral', value: fmt(ref.length), sub: { key: 's_ofAttendance', vars: { p: pct(ref.length, att.length) } }, delta: pctD(ref.length, refP.length), good: 'flat' });
-    }
     const attNoMonth = curNoMonth.filter((r) => r.attended);
     return {
       ...base,
       groups: [{ cards }],
       monthly: { titleKey: 'c_attendanceMonth', unitKey: 'sessions', values: monthly(attNoMonth) },
       gender: genderPair(att),
-      panels: isK
-        ? [
-            bars('c_byPtj', tally(att, (r) => r.ptj)),
-            bars('c_bySource', tally(att, (r) => r.source), 'c_bySourceSub'),
-            bars('c_byCase', tally(att, (r) => r.caseType))
-          ]
-        : [bars('c_byCase', tally(att, (r) => r.caseType)), bars('c_byPtj', tally(att, (r) => r.ptj))]
+      panels: [bars('c_byPtj', tally(att, (r) => r.ptj)), bars('c_bySource', tally(att, (r) => r.source), 'c_bySourceSub'), bars('c_byCase', tally(att, (r) => r.caseType))]
     };
   }
 
@@ -145,18 +147,20 @@ export function computeModule(id, data, sel, year) {
 
   if (id === 'dass' || id === 'intervensi') {
     const isD = id === 'dass';
-    const stableOf = (r) => (isD ? r.sl <= 1 : r.status === 'stabil');
-    const severeOf = (r) => (isD ? r.sl >= 3 : r.status === 'teruk');
+    const stableOf = (r) => r.sl <= 1;
+    const severeOf = (r) => r.sl >= 3;
     const groups = ['pelajar', 'staf'].map((who) => {
       const g = cur.filter((r) => r.respondent === who), gp = prev.filter((r) => r.respondent === who);
+      const isS = who === 'pelajar';
+      const countCard = { label: isD ? (isS ? 'k_studentsTaking' : 'k_staffTaking') : (isS ? 'k_studentsInterv' : 'k_staffInterv'), value: fmt(g.length), sub: { key: isS ? 's_students' : 's_staff' }, delta: pctD(g.length, gp.length), good: 'flat' };
+      if (!isD) return { titleKey: isS ? 'groupStudents' : 'groupStaff', cards: [countCard] };
       const st = g.filter(stableOf).length, stP = gp.filter(stableOf).length;
       const sv = g.filter(severeOf).length, svP = gp.filter(severeOf).length;
-      const isS = who === 'pelajar';
       const shareKey = isS ? 's_ofStudents' : 's_ofStaff';
       return {
         titleKey: isS ? 'groupStudents' : 'groupStaff',
         cards: [
-          { label: isS ? 'k_studentsTaking' : 'k_staffTaking', value: fmt(g.length), sub: { key: isS ? 's_students' : 's_staff' }, delta: pctD(g.length, gp.length), good: 'flat' },
+          countCard,
           { label: 'k_stable', value: fmt(st), sub: { key: shareKey, vars: { p: pct(st, g.length) } }, delta: ptsD(g.length ? (st / g.length) * 100 : 0, gp.length ? (stP / gp.length) * 100 : 0, gp.length > 0), good: 'up' },
           { label: 'k_severe', value: fmt(sv), sub: { key: shareKey, vars: { p: pct(sv, g.length) } }, delta: ptsD(g.length ? (sv / g.length) * 100 : 0, gp.length ? (svP / gp.length) * 100 : 0, gp.length > 0), good: 'down', severe: true }
         ]

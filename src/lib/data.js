@@ -31,8 +31,8 @@ const LOADERS = {
     return { rows: rows.map((r) => ({ ...dateParts(r.session_date), id: r.id, ptj: r.ptj, gender: r.gender, source: r.source, caseType: r.case_type, attended: r.attended })) };
   },
   tatatertib: async (a, b) => {
-    const rows = await fetchAll((f, t) => supabase.from('discipline_sessions').select('id,session_date,ptj,gender,case_type,attended').gte('session_date', a).lte('session_date', b).order('id').range(f, t));
-    return { rows: rows.map((r) => ({ ...dateParts(r.session_date), id: r.id, ptj: r.ptj, gender: r.gender, caseType: r.case_type, attended: r.attended })) };
+    const rows = await fetchAll((f, t) => supabase.from('discipline_sessions').select('id,session_date,ptj,gender,case_type').gte('session_date', a).lte('session_date', b).order('id').range(f, t));
+    return { rows: rows.map((r) => ({ ...dateParts(r.session_date), id: r.id, ptj: r.ptj, gender: r.gender, caseType: r.case_type })) };
   },
   ujian: async (a, b) => {
     const rows = await fetchAll((f, t) => supabase.from('psych_tests').select('id,test_date,ptj,gender,source,test_name,person_code').gte('test_date', a).lte('test_date', b).order('id').range(f, t));
@@ -43,8 +43,8 @@ const LOADERS = {
     return { rows: rows.map((r) => ({ ...dateParts(r.test_date), id: r.id, respondent: r.respondent, ptj: r.ptj, gender: r.gender, campus: r.campus, dl: r.depression_level, al: r.anxiety_level, sl: r.stress_level })) };
   },
   intervensi: async (a, b) => {
-    const rows = await fetchAll((f, t) => supabase.from('interventions').select('id,intervention_date,respondent,ptj,gender,campus,intervention_type,stress_status').gte('intervention_date', a).lte('intervention_date', b).order('id').range(f, t));
-    return { rows: rows.map((r) => ({ ...dateParts(r.intervention_date), id: r.id, respondent: r.respondent, ptj: r.ptj, gender: r.gender, campus: r.campus, type: r.intervention_type, status: r.stress_status })) };
+    const rows = await fetchAll((f, t) => supabase.from('interventions').select('id,intervention_date,respondent,ptj,gender,campus,intervention_type').gte('intervention_date', a).lte('intervention_date', b).order('id').range(f, t));
+    return { rows: rows.map((r) => ({ ...dateParts(r.intervention_date), id: r.id, respondent: r.respondent, ptj: r.ptj, gender: r.gender, campus: r.campus, type: r.intervention_type })) };
   },
   program: async (a, b) => {
     const [part, progs] = await Promise.all([

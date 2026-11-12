@@ -1,7 +1,7 @@
 import { VALUE_EN } from './constants.js';
 
 const MS = {
-  appName: 'PCU One Stop Centre', appSub: 'Dashboard pengurusan',
+  appName: 'PCU One Stop Centre',
   modules: 'Modul', menu: 'Menu', overview: 'Ringkasan',
   kaunseling: 'Kaunseling', program: 'Program', ujian: 'Ujian Psikologi', tatatertib: 'Tatatertib', dass: 'DASS', intervensi: 'Intervensi',
   entry: 'Rekod data', import: 'Import / Eksport', admin: 'Pentadbiran', system: 'Sistem',
@@ -26,7 +26,7 @@ const MS = {
   total: 'jumlah', shareOf: 'Peratus daripada {n}', peak: 'Puncak: {m} ({n})', totalFor: 'Jumlah {n} {unit}, tahun {year}',
   downloadReport: 'Muat turun laporan', downloadCsv: 'Muat turun CSV', downloadPdf: 'Muat turun PDF', updated: 'Dikemas kini',
   // KPI labels
-  k_attended: 'Bil. yang hadir sesi', k_rate: 'Peratus hadir', k_referral: 'Kes rujukan',
+  k_attended: 'Bil. yang hadir sesi', k_sessions: 'Bilangan sesi', s_sessionsHeld: 'sesi tatatertib', c_sessionsMonth: 'Sesi tatatertib mengikut bulan', k_studentsInterv: 'Pelajar menerima intervensi', k_staffInterv: 'Staf menerima intervensi', k_rate: 'Peratus hadir', k_referral: 'Kes rujukan',
   k_participation: 'Jumlah penyertaan', k_programs: 'Jumlah program', k_budget: 'Jumlah bajet (RM)',
   k_takers: 'Jumlah mengambil ujian', k_tests: 'Jumlah ujian',
   k_studentsTaking: 'Bilangan pelajar mengambil ujian', k_staffTaking: 'Bilangan staf mengambil ujian',
@@ -55,15 +55,15 @@ const MS = {
   // auth
   signIn: 'Log masuk', signUp: 'Daftar akaun', email: 'E-mel', password: 'Kata laluan', fullName: 'Nama penuh',
   haveAccount: 'Sudah ada akaun? Log masuk', noAccount: 'Belum ada akaun? Daftar', checkEmail: 'Akaun dicipta. Semak e-mel anda untuk pengesahan, kemudian log masuk.',
-  signInHint: 'Akses untuk kakitangan PCU sahaja.', authFailed: 'Log masuk gagal. Semak e-mel dan kata laluan.', passwordShort: 'Kata laluan sekurang-kurangnya 8 aksara.',
+  signInHint: 'Akses untuk staf PCU sahaja.', authFailed: 'Log masuk gagal. Semak e-mel dan kata laluan.', passwordShort: 'Kata laluan sekurang-kurangnya 8 aksara.',
   pendingTitle: 'Akaun menunggu kelulusan', pendingBody: 'Akaun anda telah didaftarkan. Pentadbir perlu meluluskan akses anda sebelum anda boleh melihat data.',
   checkAgain: 'Semak semula',
   // entry
   entryTitle: 'Rekod data', entryDesc: 'Tambah rekod baharu. Jangan masukkan nama atau nombor matrik pelajar; sistem ini menyimpan data tanpa nama.',
-  anonNote: 'Data tanpa nama: tiada nama atau ID pelajar disimpan.',
+  anonNote: 'Nama dan no. matrik/staf hanya dilihat oleh staf PCU yang diluluskan. Dashboard hanya memaparkan jumlah.',
   date: 'Tarikh', ptj: 'PTJ', gender: 'Jantina', source: 'Rujukan / sukarela', caseType: 'Kes', attendedQ: 'Hadir sesi', yes: 'Hadir', no: 'Tidak hadir',
   testName: 'Nama ujian psikologi', personCode: 'Kod peserta (pilihan)', personCodeHint: 'Kod tanpa nama untuk mengira bilangan orang yang sama. Biarkan kosong jika tiada.',
-  respondent: 'Responden', campus: 'Kampus', intervType: 'Jenis intervensi', stressStatus: 'Status stres',
+  respondent: 'Kategori', personName: 'Nama', personId: 'No. matrik / No. staf', officer: 'Pegawai yang bertanggungjawab', letterDate: 'Tarikh surat diterima', campus: 'Kampus', intervType: 'Jenis intervensi', stressStatus: 'Status stres',
   score_depression: 'Skor kemurungan (0 hingga 42)', score_anxiety: 'Skor kebimbangan (0 hingga 42)', score_stress: 'Skor tekanan (0 hingga 42)',
   programName: 'Nama program', department: 'Jabatan', heldOn: 'Tarikh program', budget: 'Bajet (RM)', category: 'Kategori penyertaan', participantsN: 'Bilangan peserta',
   participationLines: 'Butiran penyertaan', addLine: 'Tambah baris', removeLine: 'Buang baris',
@@ -80,22 +80,22 @@ const MS = {
   importHistory: 'Sejarah import', undoImport: 'Batalkan import', rows: 'baris', file: 'Fail', when: 'Masa', module: 'Modul', noImports: 'Belum ada import.',
   exportTitle: 'Eksport data mentah', exportBtn: 'Eksport CSV', exporting: 'Menyediakan…', exportYear: 'Tahun',
   err_required: 'Diperlukan', err_date: 'Tarikh tidak sah (guna 2026-03-15 atau 15/03/2026)', err_gender: 'Jantina mesti Perempuan atau Lelaki',
-  err_source: 'Mesti rujukan atau sukarela', err_lookup: '"{v}" tiada dalam senarai {k}', err_bool: 'Mesti ya atau tidak', err_respondent: 'Mesti pelajar atau staf',
+  err_source: 'Mesti rujukan atau sukarela', err_lookup: '"{v}" tiada dalam senarai {k}', err_bool: 'Mesti ya atau tidak', err_respondent: 'Kategori mesti pelajar atau staf',
   err_status: 'Mesti stabil, sederhana atau teruk', err_score: 'Skor mesti 0 hingga 42', err_number: 'Mesti nombor 0 atau lebih', err_int: 'Mesti nombor bulat lebih daripada 0',
   // admin
   adminTitle: 'Pentadbiran', adminDesc: 'Urus pengguna dan senarai pilihan yang digunakan dalam borang.',
-  users: 'Pengguna', userName: 'Nama', userEmail: 'E-mel', userRole: 'Peranan', role_pending: 'Menunggu', role_staff: 'Kakitangan', role_admin: 'Pentadbir',
+  users: 'Pengguna', userName: 'Nama', userEmail: 'E-mel', userRole: 'Peranan', role_pending: 'Menunggu', role_staff: 'Staf', role_admin: 'Pentadbir',
   lists: 'Senarai pilihan', addValue: 'Tambah nilai', add: 'Tambah', remove: 'Buang', onlyAdmin: 'Halaman ini untuk pentadbir sahaja.',
   roleUpdated: 'Peranan dikemas kini.', youLabel: '(anda)',
   kind_ptj: 'PTJ', kind_kampus: 'Kampus', kind_kes_kaunseling: 'Kes kaunseling', kind_kes_tatatertib: 'Kes tatatertib', kind_ujian: 'Nama ujian psikologi',
   kind_intervensi: 'Jenis intervensi', kind_jabatan: 'Jabatan', kind_kategori_penyertaan: 'Kategori penyertaan',
   demoBanner: 'Mod demo: data disimpan dalam pelayar ini sahaja.',
-  footer: 'Data tanpa nama. Akses untuk kakitangan PCU yang diluluskan sahaja.',
+  footer: 'Akses untuk staf PCU yang diluluskan sahaja. Dashboard hanya memaparkan jumlah.',
   month: 'Bulan'
 };
 
 const EN = {
-  appName: 'PCU One Stop Centre', appSub: 'Management dashboard',
+  appName: 'PCU One Stop Centre',
   modules: 'Modules', menu: 'Menu', overview: 'Overview',
   kaunseling: 'Counselling', program: 'Programmes', ujian: 'Psychological Tests', tatatertib: 'Discipline', dass: 'DASS', intervensi: 'Interventions',
   entry: 'Data entry', import: 'Import / Export', admin: 'Administration', system: 'System',
@@ -119,7 +119,7 @@ const EN = {
   noData: 'No data for these filters.', vsYear: 'vs {year}', pts: 'pts', people: 'people', sessions: 'sessions', tests: 'tests', participants: 'participants',
   total: 'total', shareOf: 'Share of {n}', peak: 'Peak: {m} ({n})', totalFor: 'Total {n} {unit}, {year}',
   downloadReport: 'Download report', downloadCsv: 'Download CSV', downloadPdf: 'Download PDF', updated: 'Updated',
-  k_attended: 'Attended sessions', k_rate: 'Attendance rate', k_referral: 'Referral cases',
+  k_attended: 'Attended sessions', k_sessions: 'Total sessions', s_sessionsHeld: 'disciplinary sessions', c_sessionsMonth: 'Disciplinary sessions by month', k_studentsInterv: 'Students receiving intervention', k_staffInterv: 'Staff receiving intervention', k_rate: 'Attendance rate', k_referral: 'Referral cases',
   k_participation: 'Total participation', k_programs: 'Total programmes', k_budget: 'Total budget (RM)',
   k_takers: 'Total test takers', k_tests: 'Total tests',
   k_studentsTaking: 'Students taking the test', k_staffTaking: 'Staff taking the test',
@@ -150,10 +150,10 @@ const EN = {
   pendingTitle: 'Account awaiting approval', pendingBody: 'Your account is registered. An administrator must approve your access before you can see any data.',
   checkAgain: 'Check again',
   entryTitle: 'Data entry', entryDesc: 'Add new records. Do not enter student names or matric numbers; this system stores anonymised data.',
-  anonNote: 'Anonymised data: no student names or IDs are stored.',
+  anonNote: 'Names and matric/staff numbers are visible to approved PCU staff only. The dashboard shows totals only.',
   date: 'Date', ptj: 'PTJ', gender: 'Gender', source: 'Referral / voluntary', caseType: 'Case', attendedQ: 'Attended session', yes: 'Attended', no: 'Did not attend',
   testName: 'Psychological test', personCode: 'Participant code (optional)', personCodeHint: 'An anonymous code used to count the same person once. Leave blank if you have none.',
-  respondent: 'Respondent', campus: 'Campus', intervType: 'Intervention type', stressStatus: 'Stress status',
+  respondent: 'Category', personName: 'Name', personId: 'Matric no. / Staff no.', officer: 'Officer in charge', letterDate: 'Letter received date', campus: 'Campus', intervType: 'Intervention type', stressStatus: 'Stress status',
   score_depression: 'Depression score (0 to 42)', score_anxiety: 'Anxiety score (0 to 42)', score_stress: 'Stress score (0 to 42)',
   programName: 'Programme name', department: 'Department', heldOn: 'Programme date', budget: 'Budget (RM)', category: 'Participation category', participantsN: 'Number of participants',
   participationLines: 'Participation details', addLine: 'Add row', removeLine: 'Remove row',
@@ -169,7 +169,7 @@ const EN = {
   importHistory: 'Import history', undoImport: 'Undo import', rows: 'rows', file: 'File', when: 'When', module: 'Module', noImports: 'No imports yet.',
   exportTitle: 'Export raw data', exportBtn: 'Export CSV', exporting: 'Preparing…', exportYear: 'Year',
   err_required: 'Required', err_date: 'Invalid date (use 2026-03-15 or 15/03/2026)', err_gender: 'Gender must be Perempuan/Female or Lelaki/Male',
-  err_source: 'Must be rujukan/referral or sukarela/voluntary', err_lookup: '"{v}" is not in the {k} list', err_bool: 'Must be yes or no', err_respondent: 'Must be pelajar/student or staf/staff',
+  err_source: 'Must be rujukan/referral or sukarela/voluntary', err_lookup: '"{v}" is not in the {k} list', err_bool: 'Must be yes or no', err_respondent: 'Category must be pelajar/student or staf/staff',
   err_status: 'Must be stabil, sederhana or teruk', err_score: 'Score must be 0 to 42', err_number: 'Must be a number 0 or more', err_int: 'Must be a whole number above 0',
   adminTitle: 'Administration', adminDesc: 'Manage users and the option lists used in the forms.',
   users: 'Users', userName: 'Name', userEmail: 'Email', userRole: 'Role', role_pending: 'Pending', role_staff: 'Staff', role_admin: 'Administrator',
@@ -178,7 +178,7 @@ const EN = {
   kind_ptj: 'PTJ', kind_kampus: 'Campus', kind_kes_kaunseling: 'Counselling cases', kind_kes_tatatertib: 'Discipline cases', kind_ujian: 'Psychological tests',
   kind_intervensi: 'Intervention types', kind_jabatan: 'Departments', kind_kategori_penyertaan: 'Participation categories',
   demoBanner: 'Demo mode: data is stored in this browser only.',
-  footer: 'Anonymised data. Access for approved PCU staff only.',
+  footer: 'Access for approved PCU staff only. The dashboard shows totals only.',
   month: 'Month'
 };
 

@@ -52,6 +52,9 @@ function seed() {
     t.import_batches.push(b);
     return b.id;
   };
+  const OFFICERS = ['Pegawai A', 'Pegawai B', 'Pegawai C'];
+  let pn = 0;
+  const person = () => { pn++; return { person_name: 'Nama Contoh ' + pn, person_id: 'ID' + String(100000 + pn), officer: OFFICERS[pn % 3] }; };
   const common = (b) => ({ batch_id: b, created_by: null, created_at: '2026-11-10T07:00:00Z' });
 
   [2026, 2025].forEach((y) => {
@@ -66,10 +69,10 @@ function seed() {
         case_type: pick(['Emosi dan tekanan', 'Akademik', 'Hubungan', 'Keluarga', 'Kewangan', 'Lain-lain'], [371, 302, 228, 147, 112, 88]), attended: false, ...common(b) }));
     // Tatatertib
     b = batch('tatatertib', 0);
-    [[true, [18, 22, 20, 31, 36, 28, 24, 38, 41, 29, 25]], [false, [2, 2, 2, 3, 3, 2, 2, 3, 3, 2, 2]]].forEach(([att, arr]) =>
+    [[true, [20, 24, 22, 34, 39, 30, 26, 41, 44, 31, 27]]].forEach(([att, arr]) =>
       expand(months(arr, y)).forEach((m) =>
         t.discipline_sessions.push({ id: id(), session_date: date(y, m), ptj: pick(PTJ, [58, 54, 49, 47, 40, 36, 28]), gender: pick(G, [114, 198]),
-          case_type: pick(['Ponteng kelas', 'Salah laku kampus', 'Ketidakjujuran akademik', 'Pelanggaran kod pakaian', 'Penyalahgunaan ICT', 'Lain-lain'], [84, 72, 61, 38, 33, 24]), attended: att, ...common(b) })));
+          case_type: pick(['Ponteng kelas', 'Salah laku kampus', 'Ketidakjujuran akademik', 'Pelanggaran kod pakaian', 'Penyalahgunaan ICT', 'Lain-lain'], [84, 72, 61, 38, 33, 24]), attended: true, ...person(), letter_received_date: date(y, m), ...common(b) })));
     // Ujian psikologi (about 1,400 tests so the demo stays light)
     b = batch('ujian', 0);
     const tests = expand(months([90, 120, 105, 145, 165, 150, 110, 180, 190, 95, 140], y));
@@ -100,7 +103,7 @@ function seed() {
       const c = staff ? cumS : cumP;
       const d = sc2('depression', lv(c.depression)), a = sc2('anxiety', lv(c.anxiety)), s = sc2('stress', lv(c.stress));
       t.dass_results.push({ id: id(), test_date: date(y, m), respondent: staff ? 'staf' : 'pelajar', ptj: pick(PTJ, PTJW), gender: pick(G, [818, 516]), campus: pick(['Parit Raja', 'Pagoh'], [1052, 282]),
-        depression: d, anxiety: a, stress: s, depression_level: dassLevel('depression', d), anxiety_level: dassLevel('anxiety', a), stress_level: dassLevel('stress', s), ...common(b) });
+        depression: d, anxiety: a, stress: s, depression_level: dassLevel('depression', d), anxiety_level: dassLevel('anxiety', a), stress_level: dassLevel('stress', s), ...person(), ...common(b) });
     });
     // Intervensi
     b = batch('intervensi', 0);
@@ -108,7 +111,7 @@ function seed() {
       const staff = rnd() < 31 / 219;
       t.interventions.push({ id: id(), intervention_date: date(y, m), respondent: staff ? 'staf' : 'pelajar', ptj: pick(PTJ, [46, 38, 36, 32, 27, 22, 18]), gender: pick(G, [131, 88]), campus: pick(['Parit Raja', 'Pagoh'], [187, 32]),
         intervention_type: pick(['Kaunseling individu', 'Kaunseling kelompok', 'Bengkel pengurusan stres', 'Rujukan klinikal', 'Susulan berkala'], [71, 48, 36, 34, 30]),
-        stress_status: pick(['stabil', 'sederhana', 'teruk'], [121, 38, 29]), ...common(b) });
+        ...person(), letter_received_date: date(y, m), ...common(b) });
     });
   });
   t.import_batches.forEach((b) => {
