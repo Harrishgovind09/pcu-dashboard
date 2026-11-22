@@ -59,7 +59,7 @@ const MS = {
   pendingTitle: 'Akaun menunggu kelulusan', pendingBody: 'Akaun anda telah didaftarkan. Pentadbir perlu meluluskan akses anda sebelum anda boleh melihat data.',
   checkAgain: 'Semak semula',
   // entry
-  entryTitle: 'Rekod data', entryDesc: 'Tambah rekod baharu. Jangan masukkan nama atau nombor matrik pelajar; sistem ini menyimpan data tanpa nama.',
+  entryTitle: 'Rekod data', entryDesc: 'Tambah rekod baharu. Nama dan no. matrik/staf diisi bagi DASS, Tatatertib dan Intervensi sahaja.',
   anonNote: 'Nama dan no. matrik/staf hanya dilihat oleh staf PCU yang diluluskan. Dashboard hanya memaparkan jumlah.',
   date: 'Tarikh', ptj: 'PTJ', gender: 'Jantina', source: 'Rujukan / sukarela', caseType: 'Kes', attendedQ: 'Hadir sesi', yes: 'Hadir', no: 'Tidak hadir',
   testName: 'Nama ujian psikologi', personCode: 'Kod peserta (pilihan)', personCodeHint: 'Kod tanpa nama untuk mengira bilangan orang yang sama. Biarkan kosong jika tiada.',
@@ -149,7 +149,7 @@ const EN = {
   signInHint: 'Access for PCU staff only.', authFailed: 'Sign in failed. Check your email and password.', passwordShort: 'Password must be at least 8 characters.',
   pendingTitle: 'Account awaiting approval', pendingBody: 'Your account is registered. An administrator must approve your access before you can see any data.',
   checkAgain: 'Check again',
-  entryTitle: 'Data entry', entryDesc: 'Add new records. Do not enter student names or matric numbers; this system stores anonymised data.',
+  entryTitle: 'Data entry', entryDesc: 'Add new records. Name and matric/staff number are filled in for DASS, Tatatertib and Intervensi only.',
   anonNote: 'Names and matric/staff numbers are visible to approved PCU staff only. The dashboard shows totals only.',
   date: 'Date', ptj: 'PTJ', gender: 'Gender', source: 'Referral / voluntary', caseType: 'Case', attendedQ: 'Attended session', yes: 'Attended', no: 'Did not attend',
   testName: 'Psychological test', personCode: 'Participant code (optional)', personCodeHint: 'An anonymous code used to count the same person once. Leave blank if you have none.',
